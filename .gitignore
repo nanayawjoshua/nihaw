@@ -1,0 +1,30 @@
+# Android
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+prototype/.gradle/
+prototype/app/build/
+prototype/build/
+prototype/local.properties
+
+# IDE
+.idea/
+*.iml
+
+# Environment
+.env
+.env.local
+
+# Build outputs
+*.apk
+*.aab
+*.aar
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Agent state (not build artifacts, but session-local)
+.gstack/
+.superpowers/

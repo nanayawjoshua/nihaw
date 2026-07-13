@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Council Verdict — Nihaw Design Spec</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: #f8f9fa; color: #1a1a2e; line-height: 1.6; padding: 2rem;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  .header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid #e2e8f0; }
+  .header h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .header .subtitle { color: #64748b; font-size: 0.9rem; }
+  .header .meta { color: #94a3b8; font-size: 0.8rem; margin-top: 0.5rem; }
+
+  .verdict { 
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; 
+    padding: 1.5rem; margin-bottom: 2rem; 
+    border-left: 4px solid #3b82f6;
+  }
+  .verdict h2 { font-size: 1.25rem; margin-bottom: 1rem; color: #1e293b; }
+  .verdict p { margin-bottom: 0.75rem; color: #334155; }
+
+  .section { 
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; 
+    padding: 1.5rem; margin-bottom: 1.5rem; 
+  }
+  .section h2 { font-size: 1.15rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; }
+
+  .agreement { border-left: 4px solid #22c55e; }
+  .clash { border-left: 4px solid #f59e0b; }
+  .blindspot { border-left: 4px solid #ef4444; }
+  .recommendation { border-left: 4px solid #3b82f6; }
+  .first-step { border-left: 4px solid #8b5cf6; }
+
+  .advisor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin: 1rem 0; }
+  .advisor-pill {
+    padding: 0.5rem 0.75rem; border-radius: 8px; font-size: 0.8rem;
+    border: 1px solid #e2e8f0; text-align: center;
+  }
+  .pill-for { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+  .pill-against { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+  .pill-mixed { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+
+  details {
+    margin-bottom: 0.5rem; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;
+  }
+  details summary {
+    padding: 0.75rem 1rem; cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    background: #f8fafc; user-select: none;
+  }
+  details summary:hover { background: #f1f5f9; }
+  details .content { padding: 1rem; background: #fff; font-size: 0.88rem; color: #475569; }
+
+  .advisor-label { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
+  .label-contrarian { background: #fef2f2; color: #991b1b; }
+  .label-firstprinciples { background: #eff6ff; color: #1e40af; }
+  .label-expansionist { background: #f0fdf4; color: #166534; }
+  .label-outsider { background: #f5f3ff; color: #5b21b6; }
+  .label-executor { background: #fffbeb; color: #92400e; }
+
+  .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; font-size: 0.8rem; color: #94a3b8; }
+  ul { padding-left: 1.25rem; margin-bottom: 0.75rem; }
+  li { margin-bottom: 0.3rem; }
+  .tag { display: inline-block; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; background: #e2e8f0; color: #475569; margin-right: 0.25rem; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>LLM Council Verdict</h1>
+    <p class="subtitle">Nihaw — On-Screen Mandarin Translation Overlay (Design Spec Review)</p>
+    <p class="meta">2026-07-13 &middot; 5 advisors &middot; Peer-reviewed &middot; Chairman synthesized</p>
+  </div>
+
+  <div class="verdict">
+    <h2>Executive Summary</h2>
+    <p><strong>The Accessibility Service as primary text capture is the wrong approach.</strong> The council unanimously (4/5) flags that WeChat, 1688, and Alipay use Canvas/WebView/SurfaceView rendering — the Accessibility tree will return little-to-no usable Chinese text from these apps. The spec's architecture has an existential dependency on a component that hasn't been tested against the actual target apps.</p>
+    <p><strong>Replace with screenshot-trigger → ML Kit Text Recognition → overlay.</strong> This works regardless of rendering engine, sidesteps Play Store policy risk, and simplifies permissions from 4 steps to 2. The Executor's two-day validation sprint (OCR logger on real device) must come before any UI code.</p>
+    <div class="advisor-grid">
+      <div class="advisor-pill pill-against">Contrarian ❌</div>
+      <div class="advisor-pill pill-against">First Principles ❌</div>
+      <div class="advisor-pill pill-for">Expansionist ✅</div>
+      <div class="advisor-pill pill-against">Outsider ❌</div>
+      <div class="advisor-pill pill-against">Executor ❌</div>
+    </div>
+    <p style="font-size:0.8rem;color:#94a3b8;margin-bottom:0">4 of 5 advisors recommend changing the core capture approach. The Expansionist agreed on OCR priority but wanted broader scope.</p>
+  </div>
+
+  <div class="section agreement">
+    <h2>Where the Council Agrees</h2>
+    <ul>
+      <li><strong>Accessibility Service will likely fail on Chinese apps.</strong> Four advisors independently flagged that WeChat, 1688, and Alipay use Canvas/WebView/SurfaceView rendering. The Accessibility tree in these apps returns little-to-no text.</li>
+      <li><strong>Screenshot + OCR is the more reliable capture path.</strong> Three advisors independently recommended ML Kit Text Recognition on screenshots as the primary mechanism. It works regardless of rendering engine.</li>
+      <li><strong>ML Kit zh→en quality for commerce vocabulary is unproven.</strong> Multiple advisors flagged that the 30MB on-device model handles basic phrases, not commerce vocabulary like "MOQ 500, FOB Shanghai, T/T payment."</li>
+      <li><strong>The overlay has serious UX unknowns.</strong> Touch event propagation, scrolling behavior, and dismiss without losing state were all raised independently.</li>
+    </ul>
+  </div>
+
+  <div class="section clash">
+    <h2>Where the Council Clashes</h2>
+    <ul>
+      <li><strong>Screenshot+OCR vs. Accessibility as primary:</strong> The Contrarian argues OCR should be <em>the</em> path with accessibility as bonus. The Executor treats it as backup. The right answer depends on whether the user needs continuous reading (accessibility) or occasional captures (OCR).</li>
+      <li><strong>Notification-first vs. floating bubble:</strong> The Executor makes a strong case for shipping a notification action in v1 (no overlay permission, no jank, simpler code). The spec assumes the bubble is essential. Unresolved without user testing.</li>
+      <li><strong>Global platform vs. single-user tool:</strong> The Expansionist alone argues for 59 languages and Global South. Every other advisor and peer reviewer calls this premature. Solo dev: build for one user first.</li>
+    </ul>
+  </div>
+
+  <div class="section blindspot">
+    <h2>Blind Spots the Council Caught</h2>
+    <ul>
+      <li><strong>Google Play policy is a probable kill switch.</strong> Zero advisors mentioned it. Peer reviewers flagged unanimously: overlay + accessibility service scraping screen content for non-accessibility purposes matches Google's "Deceptive Behavior" policy verbatim. Side-loading in Ghana changes distribution calculus but removes automatic updates.</li>
+      <li><strong>Google Translate already ships with "Tap to Translate" overlay.</strong> Peer reviewers punctured the premise: why install a 30MB model when Google already has overlay + cloud translation + OCR with zero setup? The answer can't be "on-device privacy" — the spec doesn't address privacy at all.</li>
+      <li><strong>30MB download on Ghanaian mobile networks.</strong> ML Kit downloads lazily on first call. If that call times out, the app is bricks. Needs testing before committing.</li>
+      <li><strong>Touch event handling is undefined.</strong> Can the user scroll the app behind the overlay? What happens to taps? The spec is silent.</li>
+    </ul>
+  </div>
+
+  <div class="section recommendation">
+    <h2>The Recommendation</h2>
+    <ol>
+      <li><strong>Replace Accessibility Service with screenshot→OCR as primary capture.</strong> This addresses the existential risk, works on all three target apps, and side-steps Play Store policy. No accessibility permission needed.</li>
+      <li><strong>Ship notification-first, not bubble-first.</strong> A notification with "Translate Screen" that triggers screenshot→OCR→overlay. No <code>SYSTEM_ALERT_WINDOW</code> in v1. No overlay compositing bugs. Add bubble in v1.1.</li>
+      <li><strong>Validate before building.</strong> The Executor's two-day validation sprint is non-negotiable: test ML Kit OCR on real screenshots of 1688, WeChat, and Alipay. Time the model download on MTN Ghana network.</li>
+      <li><strong>Don't try to out-Google Google.</strong> This app wins on <em>integration</em> (one tap captures, translates, overlays) — not on translation quality. The cloud premium tier is a distraction for Ghanaian mobile budgets.</li>
+    </ol>
+  </div>
+
+  <div class="section first-step">
+    <h2>The One Thing to Do First</h2>
+    <p><strong>Build an OCR logger app:</strong> Install on a real Android device, screenshot each of the three target apps (WeChat, 1688, Alipay), run ML Kit Text Recognition (<code>TextRecognition.getClient</code>), dump recognized text + confidence scores to logcat. If this doesn't return clean, actionable Chinese text across all three apps, the entire premise is dead. If it does, you have a validated path forward with zero architecture risk.</p>
+  </div>
+
+  <div class="section">
+    <h2>Full Advisor Responses</h2>
+    
+    <details>
+      <summary><span class="advisor-label label-contrarian">Contrarian</span> "Accessibility Service will miss the text you actually need"</summary>
+      <div class="content">
+        <p>Here's the hard truth: this app has a fundamental blindness problem. The weakest link is Android's Accessibility Service on Chinese apps. WeChat chat bubbles use Canvas-based custom rendering. 1688 product pages are WebViews with virtual DOMs exposing zero accessibility nodes. Alipay payment confirmations render as images in some flows. The spec admits this with "WeChat-specific WebView support" as a future consideration — meaning v1 will simply miss the text the user actually needs.</p>
+        <p>ML Kit on-device (zh→en) is NOT Google Translate. The user is comparing their current workflow against ML Kit's stripped 30MB model, optimized for basic phrases, not commerce vocabulary. "MOQ 500, FOB Shanghai, T/T payment" — ML Kit will hallucinate or return gibberish.</p>
+        <p>The 50% dark overlay will be unusable over dense Chinese UIs. Make OCR-based capture the primary path. Push the accessibility listener to "nice bonus."</p>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="advisor-label label-firstprinciples">First Principles</span> "You're building a battleship to cross a stream"</summary>
+      <div class="content">
+        <p>The real problem: Chinese text is on screen and the user can't read it. Copy-paste is the pain point, not "I need a beautiful overlay."</p>
+        <p>Three simpler paths you're ignoring: 1) Screenshot + OCR works with every app, no accessibility quirks. 2) Clipboard watcher + system toast — no overlay permissions, ships in days. 3) Modified keyboard — InputMethodService with translate button, zero permissions beyond keyboard.</p>
+        <p>The floating overlay + accessibility service combo introduces maximum complexity for maximum fragility. You'll spend 80% of your time handling edge cases where Chinese apps don't expose text, when a screenshot-based trigger gives 95% reliability with 20% of the code.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="advisor-label label-expansionist">Expansionist</span> "This is a universal translation platform for the Global South"</summary>
+      <div class="content">
+        <p>Same architecture, ML Kit supports 59 languages. Launch v2 with French, Portuguese, Arabic — Nihaw serves all of West Africa (300M+ people) reading Chinese commerce apps. The reverse is equally huge: English-speaking traders reading 1688 listings.</p>
+        <p>The "Translate Online" button leaves money on the table. Build a premium tier with cloud translation (Google Cloud Translation API, DeepL) for $4.99/mo. OCR is your unlock — product photos, labels, screenshots, scanned contracts. This should be v1.5, not a footnote.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="advisor-label label-outsider">Outsider</span> "Four setup steps before a single translation"</summary>
+      <div class="content">
+        <p>This app can read everything on my screen — that's also the problem. Zero mention of a privacy model, data handling policy, or audit mechanism. That's a trust wall.</p>
+        <p>Four setup steps before a single translation: overlay permission, accessibility, 30MB model download, then start service. On Ghanaian mobile data, that 30MB download is a real pain point.</p>
+        <p>"Inline popup at original text position" sounds magical and probably is. Chinese apps don't always provide reliable bounding boxes. What does the user see when positioning fails? What happens to touch events on the overlay?</p>
+      </div>
+    </details>
+
+    <details>
+      <summary><span class="advisor-label label-executor">Executor</span> "Build the accessibility logger FIRST"</summary>
+      <div class="content">
+        <p>Risk #1: Accessibility Service capture on Chinese apps. Build the accessibility logger first — a headless service that dumps text to logcat. Open each target app. If nothing useful comes through, the whole spec is dead.</p>
+        <p>Risk #2: ML Kit download on Ghanaian networks. Time it on a real device on MTN Ghana. If it times out, bundle model in APK.</p>
+        <p>Build order: 1) Accessibility logger (1 day), 2) ML Kit translate test (1 day), 3) Translation pipeline (2 days), 4) Notification shortcut — skip floating bubble in v1 entirely. Notification-first avoids SYSTEM_ALERT_WINDOW and overlay jank.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="footer">
+    <p>Council methodology adapted from <a href="https://x.com/karpathy">Andrej Karpathy's LLM Council</a><br>
+    Question: "Vet the Nihaw design spec approach for on-screen Mandarin translation overlay"<br>
+    Council convened: 2026-07-13 &middot; Full transcript: council-transcript-2026-07-13.md</p>
+  </div>
+</div>
+</body>
+</html>
