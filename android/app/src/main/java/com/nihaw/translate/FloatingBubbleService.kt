@@ -95,7 +95,7 @@ class FloatingBubbleService : Service() {
         return builder
             .setContentTitle("Nihaw")
             .setContentText("Translation overlay is running")
-            .setSmallIcon(android.R.drawable.ic_menu_translate)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
             .build()
     }
 
