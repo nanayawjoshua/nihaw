@@ -1,10 +1,30 @@
 {
   "project_name": "Nihaw",
   "product_kit_version": "1.0.0",
-  "last_session": "2026-07-13T00:00:00Z",
+  "last_session": "2026-07-13T20:00:00Z",
   "active_branch": "main",
-  "files_touched": [],
+  "files_touched": [
+    ".gitignore",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "android/app/build.gradle",
+    "android/app/src/main/AndroidManifest.xml",
+    "android/app/src/main/java/com/nihaw/translate/FloatingBubbleService.kt",
+    "android/app/src/main/java/com/nihaw/translate/MainActivity.kt",
+    "android/app/src/main/java/com/nihaw/translate/NihawAccessibilityService.kt",
+    "android/app/src/main/java/com/nihaw/translate/Translator.kt",
+    "android/app/src/main/res/layout/bubble_layout.xml",
+    "android/app/src/main/res/drawable/ic_bubble_translate.xml",
+    "android/build.gradle",
+    "android/settings.gradle",
+    "prototype/app/build.gradle",
+    "prototype/app/src/main/AndroidManifest.xml",
+    "prototype/app/src/main/java/com/nihaw/prototype/MainActivity.kt",
+    "prototype/app/src/main/res/layout/activity_main.xml",
+    "prototype/settings.gradle",
+    "given_circumstances/current_scene.md"
+  ],
   "pending_handoff": "",
-  "last_decision": "Proceed with ML Kit zh→en prototype before finalizing architecture",
+  "last_decision": "Build prototype first to validate ML Kit zh→en quality on real screenshots",
   "last_failure": ""
 }

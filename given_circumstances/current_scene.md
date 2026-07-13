@@ -8,7 +8,7 @@
 
 **Product:** Android floating overlay app that reads Mandarin text from 1688/Alipay/WeChat and translates it on-screen via ML Kit offline translation.
 
-### Current Phase: Environment Setup + Prototype
+### Current Phase: Environment Setup + ML Kit Prototype
 
 **Done:**
 - Design spec written: docs/superpowers/specs/2026-07-13-nihaw-design.md
@@ -16,15 +16,22 @@
 - Research confirmed: WeChat 8.0.52+ node obfuscation exists but workaroundable; ML Kit quality underestimated by council; Google Play policy non-issue; Tap to Translate still requires copy-paste
 - Agent-reach research completed — architecture is sound
 - GitHub CLI authenticated (nanayawjoshua)
+- GitHub repo created: github.com/nanayawjoshua/nihaw
 - Product Kit bootstrapped (hooks, state, lessons-learned)
+- AGENTS.md + CLAUDE.md created
+- Git repo initialized, initial commit pushed to main
+- Android project skeleton created (build.gradle, settings, manifest, layouts)
+- Prototype app for ML Kit zh→en validation (text input → translate → display)
+- **Both APKs build successfully** — android/ and prototype/
 
 **Decision:** Build prototype first to validate ML Kit zh→en on real screenshots before finalizing architecture. WeChat gets OCR fallback.
 
 ### Next Steps
-1. Initialize git repo + create GitHub repo
-2. Create AGENTS.md + CLAUDE.md
-3. Set up Android Gradle build with ML Kit dependency
-4. Build prototype: screenshot capture → OCR → ML Kit translate → display result
+1. ~~Initialize git repo + create GitHub repo~~ ✅
+2. ~~Create AGENTS.md + CLAUDE.md~~ ✅
+3. ~~Set up Android Gradle build with ML Kit dependency~~ ✅
+4. Install prototype APK on device and test ML Kit zh→en with real Chinese text
+5. Add screenshot capture + OCR pipeline to prototype
 
 ---
 
@@ -50,3 +57,22 @@ Found:
 - Tap to Translate still requires copy-paste — Nihaw's value prop is real
 
 Decision: Build prototype first. Validate ML Kit zh→en on real screenshots.
+
+## 2026-07-13 20:00 — OpenCode
+
+**Status:** COMPLETED
+**Branch:** main
+
+Done:
+- Authenticated GitHub CLI (nanayawjoshua), created github.com/nanayawjoshua/nihaw
+- Initialized git repo, first commit pushed to main
+- Created AGENTS.md + CLAUDE.md for project
+- Bootstrapped Product Kit: .agents/hooks, state.json, given_circumstances/
+- Created Android project: build.gradle, settings, manifest, layouts, icon
+- Created prototype app: ML Kit zh→en text translation input
+- Fixed build errors: vector icon, Translator async API
+- **Both android/ and prototype/ build successfully** (two debug APKs)
+
+Next:
+- Install prototype on device, test ML Kit quality with real 1688 screenshots
+- Add screenshot capture + OCR to prototype
